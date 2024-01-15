@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Load Data - Star System Explorer</title>
+</head>
+<body>
+    <h1>Load Data</h1>
+    <form method="post" enctype="multipart/form-data" action="{% url 'explorer:download_data' %}">
+        {% csrf_token %}
+        <input type="file" name="data_file" accept=".json">
+        <button type="submit">Upload Data</button>
+    </form>
+</body>
+</html>

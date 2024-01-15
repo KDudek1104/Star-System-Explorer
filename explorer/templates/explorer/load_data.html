@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Load Data - Star System Explorer</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #042956;
+            color: #63E8F6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Header styles */
+        h1 {
+            color: #63E8F6;
+            margin-bottom: 20px;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #3685A6;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #63E8F6;
+        }
+
+        /* Message styles */
+        .success-message {
+            color: green;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #63E8F6;
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #3685A6;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #63E8F6;
+            color: #042956; /* Zmiana koloru tekstu na ciemnoniebieski po najechaniu */
+            text-decoration: underline;
+        }
+        h1, button, a {
+            margin-bottom: 20px; /* Dodaj odstęp między elementami */
+        }
+    </style>
+
+    <script>
+        // Obsługa komunikatów w JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            var successMessage = document.querySelector('.success-message');
+            var errorMessage = document.querySelector('.error-message');
+
+            // Sprawdź, czy elementy są obecne
+            if (successMessage) {
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 5000);  // Ukryj komunikat sukcesu po 5 sekundach
+            }
+
+            if (errorMessage) {
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 5000);  // Ukryj komunikat błędu po 5 sekundach
+            }
+        });
+    </script>
+    <!-- Dodaj ten blok JavaScript na końcu pliku HTML -->
+<script>
+    // Sprawdź, czy na stronie jest komunikat o błędzie, jeśli tak, to wyświetl go
+    document.addEventListener('DOMContentLoaded', function() {
+        var errorMessage = document.querySelector('.error-message');
+
+        if (errorMessage) {
+            errorMessage.style.display = 'block';
+        }
+    });
+</script>
+
+</head>
+<body>
+    <h1>Load Data</h1>
+    <form method="post" enctype="multipart/form-data" action="{% url 'explorer:load_data' %}">
+        {% csrf_token %}
+        <input type="file" name="data_file" accept=".json">
+        <button type="submit">Upload Data</button>
+    </form>
+
+    {% if success_message %}
+        <p class="success-message">{{ success_message }}</p>
+    {% endif %}
+
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Button to go back to index page -->
+    <a href="{% url 'explorer:index' %}">Back</a>
+</body>
+</html>

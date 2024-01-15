@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ system.name }} - Star System Explorer</title>
+</head>
+<body>
+    <h1>{{ system.name }}</h1>
+    <ul>
+        {% for star in system.stars.all %}
+            <li>
+                <a href="{% url 'explorer:star_detail' system.id star.id %}">{{ star.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

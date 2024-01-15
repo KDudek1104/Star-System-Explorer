@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Star - Star System Explorer</title>
+    <style>
+
+h1 {
+    color: #63E8F6;
+    margin-bottom: 20px;
+    text-align: center; /* Wyśrodkuj tekst */
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #042956;
+            color: #63E8F6;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+        }
+ a {
+            text-decoration: none;
+            color: #63E8F6;
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #3685A6;
+            transition: background-color 0.3s;
+            margin-top: 150px;
+ position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+        }
+
+        a:hover {
+            background-color: #63E8F6;
+    color: #042956; /* Zmiana koloru tekstu na ciemnoniebieski po najechaniu */
+            text-decoration: underline;
+        }
+        h1 {
+            color: #63E8F6;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #163758;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #63E8F6;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            background-color: #3685A6;
+            color: #63E8F6;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #3685A6;
+            color: #63E8F6;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #63E8F6;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<h1>Add Star</h1>
+<form method="post" action="{% url 'explorer:add_star' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<!-- Button to go back to index page -->
+<a href="{% url 'explorer:index' %}">Back</a>
+</body>
+</html>
