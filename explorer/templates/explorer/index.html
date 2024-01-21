@@ -1,159 +1,150 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-   <title>Star System Explorer</title>
+    <title>Star System Explorer</title>
     <style>
-/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #042956;
-    color: #63E8F6;
-    margin: 10;
-}
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #042956;
+            color: #63E8F6;
+            margin: 10;
+        }
 
-/* Header styles */
-h1 {
-    color: #63E8F6;
-    top: 0;
-    text-align: center;
-           display: flex;
-    margin-top: 10px;
-}
+        /* Header styles */
+        h1 {
+            color: #63E8F6;
+            top: 0;
+            text-align: center;
+            display: flex;
+            margin-top: 10px;
+        }
 
-/* Search form styles */
-#search-form {
-    position: fixed; /* Keep the search form on the top of the page */
-    top: 40px;
-    padding: 20px;
-    width: 30%;
-}
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-/* Navigation styles */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
+        li {
+            margin: 5px 0;
+        }
 
-li {
-    margin: 5px 0;
-}
+        a {
+            text-decoration: none;
+            color: #63E8F6;
+        }
 
-a {
-    text-decoration: none;
-    color: #63E8F6;
-}
+        a:hover {
+            text-decoration: underline;
+        }
 
-a:hover {
-    text-decoration: underline;
-}
+        /* Button styles */
+        .button-container {
+            margin-top: 20px;
+        }
 
-/* Button styles */
-.button-container {
-    margin-top: 20px;
-}
+        /* Action buttons at the bottom of the page */
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            background-color: #042956;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
 
-/* Action buttons at the bottom of the page */
-.button-container {
-    position: fixed;
-    bottom: 0;
-    background-color: #042956;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-}
+        .action-button {
+            background-color: #3685A6;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
 
-.action-button {
-    background-color: #3685A6;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
+        .action-button:hover {
+            background-color: #63E8F6;
+            color: #042956;
+        }
 
-.action-button:hover {
-    background-color: #63E8F6;
-    color: #042956;
-}
+        thead {
+            background-color: #63E8F6;
+            color: #042956;
+        }
 
+        th,
+        td {
+            border: 1px solid #63E8F6;
+            padding: 10px;
+            text-align: left;
+        }
 
-thead {
-    background-color: #63E8F6;
-    color: #042956;
-}
+        /* Search input styles */
+        #id_star_name {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #63E8F6;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
 
-th, td {
-    border: 1px solid #63E8F6;
-    padding: 10px;
-    text-align: left;
-}
+        /* Centering elements on the page */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
 
-/* Search input styles */
-#id_star_name {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #63E8F6;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-top: 10px;
-}
+        #search-form {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #042956;
+            padding: 10px;
+            width: 80%;
+            z-index: 1;
+        }
 
-/* Centering elements on the page */
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px;
-}
+        #search-button {
+            background-color: #3685A6;
+            color: #FFFFFF;
+            /* Change text color to white */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-#search-form {
-    position: fixed; /* Utrzymuj formularz wyszukiwania na górze strony */
-    top: 0;
-    left: 50%; /* Ustaw lewą krawędź formularza na środku strony */
-    transform: translateX(-50%); /* Skoryguj pozycję na środku przy użyciu transformacji */
-    background-color: #042956;
-    padding: 10px;
-    width: 80%; /* Ustaw szerokość formularza na 80% szerokości strony */
-    z-index: 1; /* Umieść formularz wyszukiwania nad tabelą */
-}
+        #search-button:hover {
+            background-color: #63E8F6;
+            color: #042956;
+        }
 
-#search-button {
-    background-color: #3685A6;
-    color: #FFFFFF; /* Zmiana koloru tekstu na biały */
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#search-button:hover {
-    background-color: #63E8F6;
-    color: #042956; /* Zmiana koloru tekstu na ciemnoniebieski po najechaniu */
-}
-
-/* Table styles */
-table {
-    width: 80%;
-    border-collapse: collapse;
-    margin-bottom: 50px;
-}
-
-
+        /* Table styles */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+        }
     </style>
 
-    <!-- Dodaj linki do plików JS i CSS dla obsługi podpowiedzi -->
+    <!-- Add links to JS and CSS files for tooltip support -->
     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- Dodaj obsługę podpowiedzi -->
+    <!-- Add tooltip support -->
     <script>
         $(function () {
             var availableStars = [
                 {% for star in stars %}
-                    "{{ star.name }}",
+                "{{ star.name }}",
                 {% endfor %}
             ];
 
@@ -161,17 +152,16 @@ table {
                 source: availableStars
             });
         });
-
-
     </script>
 </head>
+
 <body>
     <h1>Star System Explorer</h1>
 
     <form method="get" id="search-form">
         {% csrf_token %}
-        <input type="text" name="star_name" id="id_star_name" placeholder="Wpisz nazwę gwiazdy" />
-        <button type="submit" id="search-button">Szukaj</button>
+        <input type="text" name="star_name" id="id_star_name" placeholder="Enter star name" />
+        <button type="submit" id="search-button">Search</button>
     </form>
 
     <table>
@@ -185,34 +175,35 @@ table {
         </thead>
         <tbody>
             {% for star in stars %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ star.name }}</td>
-                    <td>{{ star.distance }}</td>
-                    <td>
-                        <a href="{% url 'explorer:star_detail' system_id=star.system.id star_id=star.id %}">Details</a>
-                        <a href="{% url 'explorer:delete_star' system_id=star.system.id star_id=star.id %}">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ star.name }}</td>
+                <td>{{ star.distance }}</td>
+                <td>
+                    <a href="{% url 'explorer:star_detail' system_id=star.system.id star_id=star.id %}">Details</a>
+                    <a href="{% url 'explorer:delete_star' system_id=star.system.id star_id=star.id %}">Delete</a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 
     <div class="button-container">
-        <a href="{% url 'explorer:add_star' %}" class="action-button">Dodaj Gwiazdę </a>
-<!--        <a href="{% url 'explorer:show_gallery' %}" class="action-button">Lista systemów</a>-->
-        <a href="{% url 'explorer:download_data' %}" class="action-button">Pobierz Dane</a>
-        <a href="{% url 'explorer:load_data' %}" class="action-button">Ładuj Dane</a>
-         <button id="delete-all-button" class="action-button" onclick="confirmDelete()">Usuń Wszystkie</button>
-
+        <a href="{% url 'explorer:add_star' %}" class="action-button">Add Star</a>
+        <!-- <a href="{% url 'explorer:show_gallery' %}" class="action-button">List of Systems</a> -->
+        <a href="{% url 'explorer:download_data' %}" class="action-button">Download Data</a>
+        <a href="{% url 'explorer:load_data' %}" class="action-button">Load Data</a>
+        <a id="delete-all-button" class="action-button" onclick="confirmDelete()">Delete All</a>
     </div>
-<script>
-    function confirmDelete() {
-        var result = confirm("Czy na pewno chcesz usunąć WSZYSTKIE gwiazdy?");
-        if (result) {
-            window.location.href = "{% url 'explorer:delete_all_stars' %}";
+
+    <script>
+        function confirmDelete() {
+            var result = confirm("Are you sure you want to delete ALL stars?");
+            if (result) {
+                window.location.href = "{% url 'explorer:delete_all_stars' %}";
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>
