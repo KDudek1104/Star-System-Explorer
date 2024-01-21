@@ -69,14 +69,14 @@
 
         a:hover {
             background-color: #63E8F6;
-            color: #042956; /* Zmiana koloru tekstu na ciemnoniebieski po najechaniu */
+            color: #042956;
             text-decoration: underline;
         }
         h1, button, a {
-            margin-bottom: 20px; /* Dodaj odstęp między elementami */
+            margin-bottom: 20px;
         }
     </style>
-    <!-- Dodaj obsługę zdarzeń dla input typu plik -->
+    <!-- Event management for file input -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const fileInput = document.querySelector('input[type="file"]');
@@ -86,7 +86,7 @@
             const fileName = fileInput.value;
             const allowedExtensions = /(\.json)$/i;
 
-            // Sprawdź czy rozszerzenie pliku jest .json
+            // Checks whether the extension of the file is .json
             if (!allowedExtensions.exec(fileName)) {
                 document.getElementById('file-format-error').style.display = 'block';
                 form.addEventListener('submit', function (event) {
