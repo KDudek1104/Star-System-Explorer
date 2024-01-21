@@ -41,18 +41,6 @@ def star_detail(request, system_id, star_id):
     star = get_object_or_404(Star, pk=star_id)
     return render(request, 'explorer/star_detail.html', {'star': star})
 
-def add_system(request):
-    if request.method == 'POST':
-        form = SystemForm(request.POST)
-        if form.is_valid():
-            system_name = form.cleaned_data['name']
-            new_system = StarSystem.objects.create(name=system_name)
-            return redirect('explorer:index')  # Redirects to the main page after adding a system
-    else:
-        form = SystemForm()
-
-    return render(request, 'explorer/add_star.html', {'form': form})
-
 def show_gallery(request):
     systems = StarSystem.objects.all()
     return render(request, 'explorer/show_gallery.html', {'systems': systems})

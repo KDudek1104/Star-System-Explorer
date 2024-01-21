@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gallery - Star System Explorer</title>
+    <title>List - Star System Explorer</title>
 </head>
 <body>
-    <h1>Gallery</h1>
+    <h1>Systems list</h1>
     <ul>
         {% for system in systems %}
             <li>{{ system.name }} - <a href="{% url 'explorer:system_detail' system.id %}">Details</a></li>

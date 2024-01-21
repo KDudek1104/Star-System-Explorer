@@ -23,7 +23,7 @@
         }
 
         .success-message {
-            color: green;
+            color: #63f6bb;
             margin-top: 20px;
             margin-bottom: 10px;
         }
@@ -55,7 +55,7 @@
         {% if object_count == 1 %}
             1 object has been successfully loaded.
         {% else %}
-            {{ object_count }} objects have been successfully loaded.
+            {{ object_count }} stars have been successfully loaded.
         {% endif %}
     </div>
     <a href="{% url 'explorer:index' %}">Back to Home</a>
