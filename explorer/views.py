@@ -47,7 +47,7 @@ def add_system(request):
         if form.is_valid():
             system_name = form.cleaned_data['name']
             new_system = StarSystem.objects.create(name=system_name)
-            return redirect('explorer:index')  # Przekieruj na stronę główną po dodaniu systemu
+            return redirect('explorer:index')  # Redirects to the main page after adding a system
     else:
         form = SystemForm()
 
