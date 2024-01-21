@@ -37,20 +37,6 @@ Star System Explorer is a Django web application for exploring and managing info
   - Enjoy a user-friendly and responsive interface for easy navigation.
   - Accessible on various devices.
 
-### 5. User Authentication and Authorization
-
-Implement a robust user authentication and authorization system to enhance the security and personalize user experiences within the Star System Explorer application. Users should be able to register, log in, and log out. Additionally, different levels of access permissions should be established to control user interactions, ensuring that only authorized users can perform specific actions, such as adding, modifying, or deleting star system data.
-
-#### Key Points:
-- **User Registration:** Allow users to create accounts by providing necessary details like username, email, and password.
-- **User Login/Logout:** Enable users to log in securely with their credentials and log out when they are done using the application.
-- **Access Control:** Implement role-based access control to distinguish between regular users and administrators. Define specific permissions for each role.
-- **Profile Management:** Provide users with the ability to manage their profiles, including updating personal information and changing passwords.
-- **Secure Password Handling:** Implement secure password storage using hashing techniques to protect user account information.
-
-By incorporating user authentication and authorization, you enhance the overall security of the application and tailor the user experience based on individual user roles and permissions.
-
-
 ## Getting Started
 
 These instructions will help you set up the project on your local machine for development and testing purposes.
