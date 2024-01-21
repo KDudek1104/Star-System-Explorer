@@ -5,20 +5,23 @@ from django.shortcuts import render, get_object_or_404
 from .models import StarSystem, Star
 from .forms import SystemForm, StarForm, SearchForm
 from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from .models import Star
+from django.db import transaction
 
 
 def index(request):
     systems = StarSystem.objects.all()
     stars = Star.objects.all()
 
-    # Przetwarzaj formularz wyszukiwania
+    # Search form
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
         star_name = search_form.cleaned_data['star_name']
         if star_name:
             stars = stars.filter(name__icontains=star_name)
 
-    # Użyj zaimplementowanej funkcji sortującej
+    # Use the implemented function for sorting the stars (uses QuickSort)
     sorted_stars = sort_stars_by_distance(stars)
 
     return render(request, 'explorer/index.html',
@@ -33,7 +36,6 @@ def delete_star(request, system_id, star_id):
 def system_detail(request, system_id):
     system = get_object_or_404(StarSystem, pk=system_id)
     return render(request, 'explorer/system_detail.html', {'system': system})
-
 
 def star_detail(request, system_id, star_id):
     star = get_object_or_404(Star, pk=star_id)
@@ -51,52 +53,39 @@ def add_system(request):
 
     return render(request, 'explorer/add_star.html', {'form': form})
 
-
 def show_gallery(request):
     systems = StarSystem.objects.all()
     return render(request, 'explorer/show_gallery.html', {'systems': systems})
 
-# views.py
-from django.shortcuts import render, redirect
-from .models import Star
-
 def delete_all_stars(request):
     # Usuń wszystkie gwiazdy
     Star.objects.all().delete()
-    return redirect('explorer:index')  # Przekieruj użytkownika na stronę główną po usunięciu gwiazd
+    return redirect('explorer:index')  # After deleting all stars stay on the same page (index.html)
 
 def download_data(request):
-    # Pobierz wszystkie gwiazdy z widoku index
+    # Load all stars from the gallery
     stars = Star.objects.all()
 
     sorted_stars = sort_stars_by_distance(stars)
 
-    # Przygotuj dane gwiazd w formacie JSON
+    # Prepare star details in JSON
     star_data = [
         {"name": star.name, "distance": star.distance}
         for star in sorted_stars
     ]
 
-    # Zapisz dane do pliku JSON
+    # Save data into the JSON file
     file_path = "star_data.json"
     with open(file_path, 'w') as json_file:
         json.dump(star_data, json_file)
 
-    # Pobierz plik JSON
+    # Download the JSON file
     with open(file_path, 'rb') as file:
         response = HttpResponse(file.read(), content_type='application/json')
         response['Content-Disposition'] = 'attachment; filename="star_data.json"'
         return response
 
-
-# views.py
-# views.py
-from django.db import transaction
-
-# views.py
-from django.db import transaction
-
-@transaction.atomic  # Użyj transakcji, aby zapewnić spójność bazy danych
+@transaction.atomic  # To make the database more consistent
 def load_data(request):
     if request.method == 'POST' and request.FILES.get('data_file'):
         uploaded_file = request.FILES['data_file']
@@ -121,7 +110,6 @@ def load_data(request):
 
     else:
         return render(request, 'explorer/load_data.html')
-
 
 def add_star(request):
     if request.method == 'POST':
