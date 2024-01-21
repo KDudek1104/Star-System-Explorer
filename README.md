@@ -1,6 +1,6 @@
 # Star System Explorer
 
-Star System Explorer is a Django web application for exploring and managing information about star systems and stars.
+Star System Explorer is a Django web application for exploring and managing information about star systems.
 
 ## Features
 
@@ -8,12 +8,13 @@ Star System Explorer is a Django web application for exploring and managing info
 
 - **View Star Systems and Stars:**
   - Explore a list of existing star systems and stars.
-  - Access detailed information about each star system and star.
+  - Access detailed information about each star.
 
 - **Add, Edit, and Delete Operations:**
-  - Add new star systems and stars through user-friendly forms.
-  - Edit existing star system and star details.
-  - Delete unnecessary star systems and stars.
+  - Add new stars through user-friendly forms.
+  - Edit existing star details.
+  - Delete unnecessary stars.
+  - Delete all stars.
 
 ### 2. Data Upload and Download
 
