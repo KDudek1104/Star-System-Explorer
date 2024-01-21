@@ -6,7 +6,7 @@
         h1 {
             color: #63E8F6;
             margin-bottom: 20px;
-            text-align: center; /* Wyśrodkuj tekst */
+            text-align: center;
         }
 
         body {
@@ -36,7 +36,7 @@
 
         a:hover {
             background-color: #63E8F6;
-            color: #042956; /* Zmiana koloru tekstu na ciemnoniebieski po najechaniu */
+            color: #042956;
             text-decoration: underline;
         }
 
@@ -57,18 +57,14 @@
             margin-bottom: 8px;
             color: #63E8F6;
         }
-
         input {
             width: 100%;
             padding: 8px;
             margin-bottom: 12px;
             box-sizing: border-box;
-            background-color: #3685A6;
-            color: #63E8F6;
             border: none;
             border-radius: 4px;
         }
-
         button {
             background-color: #3685A6;
             color: #63E8F6;
@@ -90,7 +86,7 @@
     {{ form.as_p }}
     <button type="submit">Save</button>
 </form>
-<!-- Button to go back to index page -->
 <a href="{% url 'explorer:index' %}">Back</a>
+
 </body>
 </html>

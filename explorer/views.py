@@ -1,11 +1,10 @@
 from .utils import sort_stars_by_distance
 from django.http import HttpResponse
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import StarSystem, Star
-from .forms import SystemForm, StarForm, SearchForm
-from django.shortcuts import render, redirect
-from .models import Star
+from .forms import StarForm, SearchForm
+
 def index(request):
     systems = StarSystem.objects.all()
     stars = Star.objects.all()
@@ -32,10 +31,6 @@ def system_detail(request, system_id):
 def star_detail(request, system_id, star_id):
     star = get_object_or_404(Star, pk=star_id)
     return render(request, 'explorer/star_detail.html', {'star': star})
-
-def show_gallery(request):
-    systems = StarSystem.objects.all()
-    return render(request, 'explorer/show_gallery.html', {'systems': systems})
 
 def delete_all_stars(request):
     Star.objects.all().delete()
@@ -68,10 +63,9 @@ def load_data(request):
             for entry in data:
                 name = entry.get('name', '')
                 distance = entry.get('distance', 0)
-                Star.objects.get_or_create(name=name, distance=distance, system=system)
+                Star.objects.create(name=name, distance=distance, system=system)
                 count += 1
             object_count = count
-            # object_count = len(data)
 
             return render(request, 'explorer/load_success.html', {'object_count': object_count})
 
@@ -80,6 +74,7 @@ def load_data(request):
             return render(request, 'explorer/load_data.html', {'success': False, 'message': error_message})
     else:
         return render(request, 'explorer/load_data.html')
+
 def add_star(request):
     if request.method == 'POST':
         form = StarForm(request.POST)
