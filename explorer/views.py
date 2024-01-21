@@ -57,7 +57,9 @@ def load_data(request):
     if request.method == 'POST' and request.FILES.get('data_file'):
         uploaded_file = request.FILES['data_file']
         try:
-            data = json.load(uploaded_file)
+            data = uploaded_file.read()
+            # Użyj json.loads zamiast json.load
+            data = json.loads(data.decode('utf-8'))
             system, created = StarSystem.objects.get_or_create(name='Loaded System')
             count = 0
             for entry in data:
