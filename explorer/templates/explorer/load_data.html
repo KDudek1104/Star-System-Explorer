@@ -51,7 +51,6 @@
         .success-message {
             color: green;
             margin-top: 20px;
-
         }
 
         .error-message {
@@ -77,7 +76,6 @@
             margin-bottom: 20px;
         }
     </style>
-    <!-- Event management for file input -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const fileInput = document.querySelector('input[type="file"]');
@@ -91,7 +89,7 @@
             if (!allowedExtensions.exec(fileName)) {
                 document.getElementById('file-format-error').style.display = 'block';
                 form.addEventListener('submit', function (event) {
-                    event.preventDefault();  // Zapobiegaj przesłaniu formularza
+                    event.preventDefault();
                 });
             } else {
             var reader = new FileReader();
@@ -118,8 +116,6 @@
         });
     });
 </script>
-
-
 </head>
 <body>
     <h1>Load Data</h1>
@@ -131,10 +127,6 @@
         <input type="file" name="data_file" accept=".json">
         <button type="submit">Upload Data</button>
     </form>
-
-
     <a href="{% url 'explorer:index' %}">Back</a>
-
-
 </body>
 </html>

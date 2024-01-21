@@ -168,14 +168,12 @@ table {
 <body>
     <h1>Star System Explorer</h1>
 
-    <!-- Dodaj formularz wyszukiwania gwiazdy -->
     <form method="get" id="search-form">
         {% csrf_token %}
         <input type="text" name="star_name" id="id_star_name" placeholder="Wpisz nazwę gwiazdy" />
         <button type="submit" id="search-button">Szukaj</button>
     </form>
 
-    <!-- Dodaj tabelę z gwiazdami -->
     <table>
         <thead>
             <tr>
@@ -187,7 +185,6 @@ table {
         </thead>
         <tbody>
             {% for star in stars %}
-
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ star.name }}</td>

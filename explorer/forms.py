@@ -12,7 +12,11 @@ class StarForm(forms.ModelForm):
     class Meta:
         model = Star
         fields = ['name', 'distance', 'system_name']
-
+        labels = {
+            'name': 'Name',
+            'distance': 'Distance to Earth',
+            'system_name': 'System Name',
+        }
 
 
 class SearchForm(forms.Form):
