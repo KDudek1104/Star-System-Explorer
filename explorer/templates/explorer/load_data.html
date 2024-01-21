@@ -76,57 +76,64 @@
             margin-bottom: 20px; /* Dodaj odstęp między elementami */
         }
     </style>
+    <!-- Dodaj obsługę zdarzeń dla input typu plik -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.querySelector('input[type="file"]');
+        const form = document.querySelector('form');
 
-    <script>
-        // Obsługa komunikatów w JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            var successMessage = document.querySelector('.success-message');
-            var errorMessage = document.querySelector('.error-message');
+        fileInput.addEventListener('change', function () {
+            const fileName = fileInput.value;
+            const allowedExtensions = /(\.json)$/i;
 
-            // Sprawdź, czy elementy są obecne
-            if (successMessage) {
-                setTimeout(function() {
-                    successMessage.style.display = 'none';
-                }, 5000);  // Ukryj komunikat sukcesu po 5 sekundach
-            }
+            // Sprawdź czy rozszerzenie pliku jest .json
+            if (!allowedExtensions.exec(fileName)) {
+                document.getElementById('file-format-error').style.display = 'block';
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();  // Zapobiegaj przesłaniu formularza
+                });
+            } else {
+            var reader = new FileReader();
 
-            if (errorMessage) {
-                setTimeout(function() {
-                    errorMessage.style.display = 'none';
-                }, 5000);  // Ukryj komunikat błędu po 5 sekundach
+                    reader.onload = function (e) {
+                        try {
+                            var jsonData = JSON.parse(e.target.result);
+                            if (Object.keys(jsonData).length === 0) {
+                                event.preventDefault();
+                                displayErrorMessage('The loaded JSON file is empty. Please choose a valid JSON file with data.');
+                            }
+                        } catch (error) {
+                            event.preventDefault();
+                            displayErrorMessage('The loaded JSON file is corrupted or invalid. Please choose a valid JSON file.');
+                        }
+                    };
+
+                    reader.readAsText(fileInput.files[0]);
+                document.getElementById('file-format-error').style.display = 'none';
+                form.removeEventListener('submit', function (event) {
+                    event.preventDefault();
+                });
             }
         });
-    </script>
-    <!-- Dodaj ten blok JavaScript na końcu pliku HTML -->
-<script>
-    // Sprawdź, czy na stronie jest komunikat o błędzie, jeśli tak, to wyświetl go
-    document.addEventListener('DOMContentLoaded', function() {
-        var errorMessage = document.querySelector('.error-message');
-
-        if (errorMessage) {
-            errorMessage.style.display = 'block';
-        }
     });
 </script>
+
 
 </head>
 <body>
     <h1>Load Data</h1>
+    <div class="error-message" id="file-format-error" style="display: none;">
+    Please upload a valid JSON file.
+</div>
     <form method="post" enctype="multipart/form-data" action="{% url 'explorer:load_data' %}">
         {% csrf_token %}
         <input type="file" name="data_file" accept=".json">
         <button type="submit">Upload Data</button>
     </form>
 
-    {% if success_message %}
-        <p class="success-message">{{ success_message }}</p>
-    {% endif %}
 
-    {% if error_message %}
-        <p class="error-message">{{ error_message }}</p>
-    {% endif %}
-
-    <!-- Button to go back to index page -->
     <a href="{% url 'explorer:index' %}">Back</a>
+
+
 </body>
 </html>

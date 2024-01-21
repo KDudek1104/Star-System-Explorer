@@ -11,27 +11,6 @@ def index(request):
     systems = StarSystem.objects.all()
     stars = Star.objects.all()
 
-    # Dodaj kilka przykładowych gwiazd, jeśli nie ma żadnych w bazie danych
-    if not stars.exists():
-        # Zakładając, że masz wcześniej zdefiniowane systemy, możemy teraz dodać więcej gwiazd do tych systemów
-        system_sirius = StarSystem.objects.create(name='Sirius System')
-        system_alpha_centauri = StarSystem.objects.create(name='Alpha Centauri System')
-        system_orion = StarSystem.objects.create(name='Orion System')
-
-        # Dodaj więcej gwiazd do systemu Sirius
-        Star.objects.create(name='Sirius A', distance=8.6, system=system_sirius)
-        Star.objects.create(name='Sirius B', distance=8.6, system=system_sirius)
-
-        # Dodaj więcej gwiazd do systemu Alpha Centauri
-        Star.objects.create(name='Alpha Centauri A', distance=4.37, system=system_alpha_centauri)
-        Star.objects.create(name='Alpha Centauri B', distance=4.37, system=system_alpha_centauri)
-        Star.objects.create(name='Proxima Centauri', distance=4.24, system=system_alpha_centauri)
-
-        # Dodaj więcej gwiazd do systemu Orion
-        Star.objects.create(name='Betelgeuse', distance=427, system=system_orion)
-        Star.objects.create(name='Rigel', distance=860, system=system_orion)
-        Star.objects.create(name='Bellatrix', distance=243, system=system_orion)
-
     # Przetwarzaj formularz wyszukiwania
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
@@ -51,7 +30,6 @@ def delete_star(request, system_id, star_id):
     star.delete()
     return redirect('explorer:index')
 
-
 def system_detail(request, system_id):
     system = get_object_or_404(StarSystem, pk=system_id)
     return render(request, 'explorer/system_detail.html', {'system': system})
@@ -60,7 +38,6 @@ def system_detail(request, system_id):
 def star_detail(request, system_id, star_id):
     star = get_object_or_404(Star, pk=star_id)
     return render(request, 'explorer/star_detail.html', {'star': star})
-
 
 def add_system(request):
     if request.method == 'POST':
@@ -79,6 +56,14 @@ def show_gallery(request):
     systems = StarSystem.objects.all()
     return render(request, 'explorer/show_gallery.html', {'systems': systems})
 
+# views.py
+from django.shortcuts import render, redirect
+from .models import Star
+
+def delete_all_stars(request):
+    # Usuń wszystkie gwiazdy
+    Star.objects.all().delete()
+    return redirect('explorer:index')  # Przekieruj użytkownika na stronę główną po usunięciu gwiazd
 
 def download_data(request):
     # Pobierz wszystkie gwiazdy z widoku index
@@ -89,7 +74,7 @@ def download_data(request):
     # Przygotuj dane gwiazd w formacie JSON
     star_data = [
         {"name": star.name, "distance": star.distance}
-        for star in sorted_stars    
+        for star in sorted_stars
     ]
 
     # Zapisz dane do pliku JSON
@@ -104,30 +89,33 @@ def download_data(request):
         return response
 
 
+# views.py
+# views.py
+from django.db import transaction
+
+# views.py
+from django.db import transaction
+
+@transaction.atomic  # Użyj transakcji, aby zapewnić spójność bazy danych
 def load_data(request):
     if request.method == 'POST' and request.FILES.get('data_file'):
         uploaded_file = request.FILES['data_file']
 
         try:
-            # Odczytaj dane z pliku JSON
             data = json.load(uploaded_file)
-
-            # Utwórz system, jeśli nie istnieje
             system, created = StarSystem.objects.get_or_create(name='Loaded System')
-
-            # Dodaj gwiazdy na podstawie danych z pliku
+            count = 0
             for entry in data:
                 name = entry.get('name', '')
                 distance = entry.get('distance', 0)
+                Star.objects.get_or_create(name=name, distance=distance, system=system)
+                count += 1
+            object_count = count
+            # object_count = len(data)
 
-                # Utwórz gwiazdę w systemie
-                Star.objects.create(name=name, distance=distance, system=system)
-
-            # Przekieruj użytkownika do strony index.html po pomyslnym wczytaniu danych
-            return redirect('explorer:index')
+            return render(request, 'explorer/load_success.html', {'object_count': object_count})
 
         except json.JSONDecodeError:
-            # Komunikat o błędzie w pliku JSON
             error_message = 'Invalid JSON file'
             return render(request, 'explorer/load_data.html', {'success': False, 'message': error_message})
 
