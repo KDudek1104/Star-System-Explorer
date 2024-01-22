@@ -53,9 +53,9 @@
     <h1>Data Successfully Loaded</h1>
     <div class="success-message">
         {% if object_count == 1 %}
-            1 object has been successfully loaded.
+            1 star has been successfully loaded (duplicates excluded).
         {% else %}
-            {{ object_count }} stars have been successfully loaded.
+            {{ object_count }} stars have been successfully loaded (duplicates excluded).
         {% endif %}
     </div>
     <a href="{% url 'explorer:index' %}">Back to Home</a>

@@ -53,20 +53,34 @@ def download_data(request):
         response['Content-Disposition'] = 'attachment; filename="star_data.json"'
         return response
 
+import json
+from django.shortcuts import render
+from .models import StarSystem, Star
+
+import json
+from django.shortcuts import render
+from .models import StarSystem, Star
+
 def load_data(request):
     if request.method == 'POST' and request.FILES.get('data_file'):
         uploaded_file = request.FILES['data_file']
         try:
             data = uploaded_file.read()
-            # Użyj json.loads zamiast json.load
             data = json.loads(data.decode('utf-8'))
             system, created = StarSystem.objects.get_or_create(name='Loaded System')
             count = 0
+            existing_star_names = set(Star.objects.filter(system=system).values_list('name', flat=True))
+
             for entry in data:
                 name = entry.get('name', '')
                 distance = entry.get('distance', 0)
-                Star.objects.create(name=name, distance=distance, system=system)
-                count += 1
+
+                # Sprawdzenie, czy gwiazda o danej nazwie już istnieje w systemie
+                if name not in existing_star_names:
+                    Star.objects.create(name=name, distance=distance, system=system)
+                    existing_star_names.add(name)
+                    count += 1
+
             object_count = count
 
             return render(request, 'explorer/load_success.html', {'object_count': object_count})
@@ -77,6 +91,11 @@ def load_data(request):
     else:
         return render(request, 'explorer/load_data.html')
 
+
+from django.shortcuts import render, redirect
+from .forms import StarForm
+from .models import StarSystem, Star
+
 def add_star(request):
     if request.method == 'POST':
         form = StarForm(request.POST)
@@ -84,6 +103,11 @@ def add_star(request):
             star_name = form.cleaned_data['name']
             star_distance = form.cleaned_data['distance']
             system_name = form.cleaned_data['system_name']
+
+            existing_star = Star.objects.filter(name=star_name).first()
+            if existing_star:
+                return render(request, 'explorer/add_star.html', {'form': form, 'error_message': 'This star already exists'})
+
             system, created = StarSystem.objects.get_or_create(name=system_name)
             new_star = Star.objects.create(name=star_name, distance=star_distance, system=system)
             return redirect('explorer:star_detail', system_id=system.id, star_id=new_star.id)

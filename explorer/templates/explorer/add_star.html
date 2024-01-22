@@ -76,6 +76,13 @@
 
         button:hover {
             background-color: #63E8F6;
+            color: #042956;
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #63E8F6;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -86,6 +93,13 @@
     {{ form.as_p }}
     <button type="submit">Save</button>
 </form>
+
+{% if error_message %}
+    <div style="color: #63E8F6;
+            text-align: center;
+            margin-top: 10px;">{{ error_message }}</div>
+{% endif %}
+
 <a href="{% url 'explorer:index' %}">Back</a>
 
 </body>

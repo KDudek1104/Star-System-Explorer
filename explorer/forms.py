@@ -13,7 +13,7 @@ class StarForm(forms.ModelForm):
         fields = ['name', 'distance', 'system_name']
         labels = {
             'name': 'Name',
-            'distance': 'Distance to Earth',
+            'distance': 'Distance to Earth (light-years)',
             'system_name': 'System Name',
         }
 class SearchForm(forms.Form):
